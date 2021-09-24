@@ -1,1 +1,16 @@
-<p>grafic1 works!</p>
+<div class="row">
+    <div class="col-6">
+        <app-doughnut [tittle]="'Changes'" [data]="data1" [labels]="label1"></app-doughnut>
+    </div>
+    <div class="col-6">
+        <app-doughnut [tittle]="'Losts'" [data]="data2" [labels]="label2"></app-doughnut>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <app-doughnut [tittle]="'Buys'" [data]="data3" [labels]="label3"></app-doughnut>
+    </div>
+    <div class="col-6">
+        <app-doughnut [tittle]="'Sells'" [data]="data4" [labels]="label4"></app-doughnut>
+    </div>
+</div>
