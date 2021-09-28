@@ -10,6 +10,7 @@ import { PagesComponent } from './pages.component';
 import { ProgressComponent } from './progress/progress.component';
 import { Grafic1Component } from './grafic1/grafic1.component';
 import { DashBoardComponent } from './dash-board/dash-board.component';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 
 @NgModule({
@@ -17,13 +18,15 @@ import { DashBoardComponent } from './dash-board/dash-board.component';
     PagesComponent,
     ProgressComponent,
     Grafic1Component,
-    DashBoardComponent
+    DashBoardComponent,
+    AccountSettingsComponent
   ],
   exports:[
     PagesComponent,
     ProgressComponent,
     Grafic1Component,
-    DashBoardComponent
+    DashBoardComponent,
+    AccountSettingsComponent
   ],
   imports: [
     CommonModule,

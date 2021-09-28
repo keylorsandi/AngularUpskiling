@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 import { DashBoardComponent } from './dash-board/dash-board.component';
 import { Grafic1Component } from './grafic1/grafic1.component';
@@ -13,7 +14,8 @@ const routes: Routes = [
     children: [
       { path: '', component: DashBoardComponent },
       { path: 'progress', component: ProgressComponent },
-      { path: 'grafic1', component: Grafic1Component }
+      { path: 'grafic1', component: Grafic1Component },
+      { path: 'account-settings', component: AccountSettingsComponent }
     ]
   },
 
