@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class RegisterComponent {
     terms: [false, Validators.required]
   });
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private userServ: UserService) { }
 
   public submitted = false;
   public message ='';
@@ -27,8 +28,7 @@ export class RegisterComponent {
   createUser() {
     this.registerForm.markAllAsTouched();
     if (this.validateSubmitForm()) {
-      this.submitted = true;
-      console.log(this.registerForm.value);
+      this.userServ.createUser(this.registerForm);
       alert("The form was submitted");
     } else {
       console.log(this.registerForm.invalid);
@@ -67,19 +67,20 @@ export class RegisterComponent {
   };
 
 
-  validPassword(password:string, password2:string){
-    const pw1 = this.registerForm.get(password)?.value;
-    const pw2 = this.registerForm.get(password2)?.value;
+  validPassword(){
+    const pw1 = this.registerForm.get('password')?.value;
+    const pw2 = this.registerForm.get('password2')?.value;
 
-    if (!pw2 && this.registerForm.controls[password2].touched) {
+    if (!pw2 && this.registerForm.controls['password2'].touched) {
       this.pwmessage = 'Please insert the password confirmation';
       return true;
     }else {
-      if (pw1===pw2) {
-        return false;
+      if (pw1!==pw2&& this.registerForm.controls['password2'].touched) {
+        this.pwmessage = 'This password does not match';
+        return true;
        }else {
-         this.pwmessage = 'This password does not match';
-         return true}
+        return false;
+        }
     };
   };
 };

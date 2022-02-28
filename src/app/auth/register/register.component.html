@@ -37,7 +37,7 @@
                 <div class="form-group">
                     <div class="col-xs-12">
                         <input class="form-control" type="password" formControlName="password2" placeholder="Confirm Password">
-                        <span *ngIf="validPassword('password','password2')" class="text-danger">{{pwmessage}}</span>
+                        <span *ngIf="validPassword()" class="text-danger">{{pwmessage}}</span>
                     </div>
                 </div>
                 <div class="form-group row">
