@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2'
+
 import { UserService } from '../../services/user.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -19,7 +22,7 @@ export class RegisterComponent {
     terms: [false, Validators.required]
   });
 
-  constructor(private fb: FormBuilder, private userServ: UserService) { }
+  constructor(private fb: FormBuilder, private userServ: UserService,private router:Router) { }
 
   public submitted = false;
   public message ='';
@@ -27,11 +30,14 @@ export class RegisterComponent {
 
   createUser() {
     this.registerForm.markAllAsTouched();
-    if (this.validateSubmitForm()) {
-      this.userServ.createUser(this.registerForm);
-      alert("The form was submitted");
+    if (this.validateSubmitForm()&& !this.validPassword()) {
+      this.userServ.createUser(this.registerForm.value).subscribe(res=>{
+       console.log(res)
+      },(err)=>{
+        Swal.fire('Error',err.error.msg, 'error');
+      });
+
     } else {
-      console.log(this.registerForm.invalid);
       this.submitted=false;
       alert("The form was not submitted");
     }
@@ -39,7 +45,7 @@ export class RegisterComponent {
   }
 
   validateSubmitForm(): boolean {
-
+    console.log(this.submitted);
     if (this.registerForm.valid) {
       return true;
     }
@@ -53,7 +59,7 @@ export class RegisterComponent {
     const regxEmail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/g ;
     if (field == 'terms') {
       return !this.registerForm.get(field)?.value && this.registerForm.controls[field].touched;
-    }
+    };
     if (field == 'email') {
       if (!this.registerForm.get(field)?.value && this.registerForm.controls.email.touched) {
         this.message = 'Please instert an email';
@@ -83,4 +89,5 @@ export class RegisterComponent {
         }
     };
   };
+
 };
