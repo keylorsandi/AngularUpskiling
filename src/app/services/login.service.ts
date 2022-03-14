@@ -20,4 +20,11 @@ export class LoginService {
       })
     );
   }
+  loginGoogle(token:any){
+    return this.httpC.post(`${base_url}login/googlesignin`,{token}).pipe(
+      tap((res:any) =>{
+        localStorage.setItem('token',res.token);
+      })
+    );
+  }
 }
