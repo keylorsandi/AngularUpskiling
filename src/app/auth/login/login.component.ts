@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from 'src/app/services/login.service';
 import Swal from 'sweetalert2';
+import { GoogleService } from '../../services/google.service';
+
 
 
 declare const gapi: any;
@@ -22,7 +24,12 @@ export class LoginComponent implements OnInit {
     remember: [false]
   });
 
-  constructor(private fb: FormBuilder, private router: Router, private _loginS: LoginService) { }
+  constructor(private fb: FormBuilder,
+    private router: Router,
+    private _loginS: LoginService,
+    private googleS: GoogleService,
+    private ngZone:NgZone
+    ) { }
 
   ngOnInit(): void {
     this.renderButton();
@@ -35,6 +42,7 @@ export class LoginComponent implements OnInit {
       } else {
         localStorage.removeItem('email');
       }
+      this.router.navigateByUrl('/dashboard');
     }, (err) => {
       Swal.fire('Error', err.error.msg, 'error');
     });
@@ -52,21 +60,22 @@ export class LoginComponent implements OnInit {
     });
     this.startApp();
   }
-  startApp() {
-    gapi.load('auth2', () => {
-      this.auth2 = gapi.auth2.init({
-        client_id: '889803693701-nqbj21q68ki0j9108g8v6n6me58da7ja.apps.googleusercontent.com',
-        cookiepolicy: 'single_host_origin',
-      });
-      this.attachSignin(document.getElementById('my-signin2'));
-    });
+  async startApp() {
+    await this.googleS.googleInit();
+    this.auth2 = this.googleS.auth2;
+    this.attachSignin(document.getElementById('my-signin2'));
   }
 
   attachSignin(element: any) {
     this.auth2.attachClickHandler(element, {},
       (googleUser: any) => {
         const id_token = googleUser.getAuthResponse().id_token;
-        this._loginS.loginGoogle(id_token).subscribe();
+        this._loginS.loginGoogle(id_token).subscribe(res=>{
+          this.ngZone.run(()=>{
+            this.router.navigateByUrl('/dashboard');
+          });
+        });
+
       }, (error: any) => {
         alert(JSON.stringify(error, undefined, 2));
       });

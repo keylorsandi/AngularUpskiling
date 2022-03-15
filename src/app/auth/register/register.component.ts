@@ -32,7 +32,7 @@ export class RegisterComponent {
     this.registerForm.markAllAsTouched();
     if (this.validateSubmitForm()&& !this.validPassword()) {
       this.userServ.createUser(this.registerForm.value).subscribe(res=>{
-       console.log(res)
+        this.router.navigateByUrl('/dashboard');
       },(err)=>{
         Swal.fire('Error',err.error.msg, 'error');
       });

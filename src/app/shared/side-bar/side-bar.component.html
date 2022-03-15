@@ -14,7 +14,7 @@
                         <li><a [routerLink]="['/dashboard/grafic1']" routerLinkActive="active">My Balance</a></li>
                         <li><a [routerLink]="['/dashboard/progress']" routerLinkActive="active">Inbox</a></li>
                         <li><a [routerLink]="['/dashboard/account-settings']" routerLinkActive="active">Account Setting</a></li>
-                        <li><a [routerLink]="['/login']">Logout</a></li>
+                        <li><a [routerLink]="['/login']" (click)="logOut()">Logout</a></li>
                     </ul>
                 </li>
                 <li class="nav-devider"></li>
